@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <json-c/json.h>
 
 struct memory_struct
 {
@@ -83,6 +84,12 @@ void habicurl_get_tags(char* user_id, char* api_key)
         }
 
         curl_easy_cleanup(curl);
+
+        json_object *jobj = json_tokener_parse(chunk.memory);
+        struct json_object  *tag1obj;
+
+        json_pointer_get(jobj, "/data/0/id", &tag1obj);
+        char* tag1id1 = json_object_get_string(tag1obj);
 
         free(chunk.memory);
     }
