@@ -1,4 +1,4 @@
-// Data contracts start here
+// Structs related to tags
 
 struct tag
 {
@@ -13,8 +13,5 @@ struct tags_list
     int tag_count;
 };
 
-// API functions start here
-// One-time init function that initializes cURL globally internally
-void habicurl_init();
-
+// API functions related to tags
 struct tags_list* habicurl_get_tags(char* user_id, char* api_key);

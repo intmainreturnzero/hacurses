@@ -1,15 +1,24 @@
 all: hacurses
 
-rebuild: clean all
+hacurses: bin/hacurses 
+	
+bin/hacurses: hacurses/hacurses.c bin/libhabicurl.so
+	gcc -g -I./habicurl -L./bin -lncurses -lcurl -ljson-c -lhabicurl -o bin/hacurses hacurses/hacurses.c 
 
-hacurses: hacurses.c libhabicurl
-	gcc -g -I. -L. -lncurses -lcurl -ljson-c -lhabicurl hacurses.c -o hacurses 
+bin/libhabicurl.so: bin/common.o bin/habicurl.o bin/tags.o
+	gcc -g -shared -o bin/libhabicurl.so bin/common.o bin/habicurl.o bin/tags.o
 
-libhabicurl: habicurl.c
-	gcc -g -fPIC -c -lcurl -ljson-c -o habicurl.o habicurl.c
-	gcc -g -shared -o libhabicurl.so habicurl.o
+bin/tags.o: habicurl/common.h habicurl/tags.h habicurl/tags.c
+	gcc -g -fPIC -c -lcurl -ljson-c -o bin/tags.o habicurl/tags.c
+
+bin/habicurl.o: habicurl/habicurl.h habicurl/habicurl.c
+	gcc -g -fPIC -c -lcurl -o bin/habicurl.o habicurl/habicurl.c
+
+bin/common.o: habicurl/common.h habicurl/common.c
+	gcc -g -fPIC -c -lcurl -o bin/common.o habicurl/common.c
+
+prepare:
+	mkdir -p bin
 
 clean:
-	rm *.o
-	rm *.so
-	rm hacurses
+	rm -r ./bin
