@@ -4,6 +4,8 @@
 #include <string.h>
 #include <json-c/json.h>
 
+#include "habicurl.h"
+
 struct memory_struct
 {
     char *memory;
@@ -53,7 +55,7 @@ struct curl_slist* add_auth_headers(char* user_id, char* api_key)
     return headers;
 }
 
-void habicurl_get_tags(char* user_id, char* api_key) 
+struct tags_list* habicurl_get_tags(char* user_id, char* api_key) 
 {
     CURL* curl = curl_easy_init();
     CURLcode res;
@@ -86,11 +88,33 @@ void habicurl_get_tags(char* user_id, char* api_key)
         curl_easy_cleanup(curl);
 
         json_object *jobj = json_tokener_parse(chunk.memory);
-        struct json_object  *tag1obj;
+        struct json_object *data_array;
 
-        json_pointer_get(jobj, "/data/0/id", &tag1obj);
-        char* tag1id1 = json_object_get_string(tag1obj);
+        json_pointer_get(jobj, "/data", &data_array);
+
+        struct array_list *tags_array_list = json_object_get_array(data_array);
+        size_t length = tags_array_list->length;
+        struct tags_list *tags_to_return= malloc(sizeof(struct tags_list));
+        struct tag *tags = malloc(length * sizeof(struct tag));
+
+        for (int i = 0; i < length; i++)
+        {
+            json_object *array_elem = (struct json_object *)(array_list_get_idx(tags_array_list, i));
+            struct json_object *id_ptr, *name_ptr;
+            json_pointer_get(array_elem, "/id", &id_ptr);
+            json_pointer_get(array_elem, "/name", &name_ptr);
+            const char *tag_id = json_object_get_string(id_ptr);
+            const char *tag_name = json_object_get_string(name_ptr);
+            
+            tags[i].tag_id = tag_id;
+            tags[i].tag_name = tag_name;
+        }
+
+        tags_to_return->tags = tags;
+        tags_to_return->tag_count = length;
 
         free(chunk.memory);
+
+        return tags_to_return;
     }
 }

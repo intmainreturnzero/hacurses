@@ -23,7 +23,7 @@ void start()
     // Initialize habicurl
     habicurl_init();
 
-    habicurl_get_tags(g_api_user_id, g_api_token);
+    struct tags_list *tags = habicurl_get_tags(g_api_user_id, g_api_token);
 }
 
 int main() 
