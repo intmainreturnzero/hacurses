@@ -3,7 +3,7 @@
 #include <json-c/json.h>
 
 #include "common.h"
-#include "tags.h"
+#include "habicurl_tags.h"
 
 // GET tags
 struct tags_list* habicurl_get_tags(char* user_id, char* api_key) 
