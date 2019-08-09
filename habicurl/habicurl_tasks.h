@@ -101,7 +101,7 @@ void task_set_alias(struct task *task_obj, char *alias);
 void task_set_collapse_check_list(struct task *task_obj, int collapse_check_list);
 void task_set_notes(struct task *task_obj, char *notes);
 void task_set_priority(struct task *task_obj, float priority);
-void task_free_object(struct task *task_obj);
+void task_free_object(struct task *task_ptr);
 
 // API calls
 void habicurl_create_task_for_user(char *user_id, char *api_key, struct task* task_to_create);

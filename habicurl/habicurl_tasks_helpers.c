@@ -85,3 +85,48 @@ void task_add_alias(struct task *task_obj, char *alias)
 
     task_obj->alias = get_new_string(alias, TASK_SIZE_ALIAS);
 }
+
+void task_free_object(struct task *task_ptr)
+{
+    if (task_ptr == NULL)
+    {
+        return;
+    }
+
+    free(task_ptr->text);
+    free(task_ptr->type);
+
+    int offset = 0;
+    if (task_ptr->tags != NULL) 
+    {
+        while (task_ptr->tags[offset] != NULL)
+        {
+            free(task_ptr->tags[offset]);
+            offset++;
+        }
+        free(task_ptr->tags);
+    }
+    
+    free(task_ptr->alias);
+    free(task_ptr->attribute);
+    free(task_ptr->notes);
+    free(task_ptr->date);
+
+    offset = 0;
+    if (task_ptr->reminders != NULL)
+    {
+        while (task_ptr->reminders[offset] != NULL)
+        {
+            free(task_ptr->reminders[offset]);
+            offset++;
+        }
+        free(task_ptr->reminders);
+    }
+
+    free(task_ptr->frequency);
+    free(task_ptr->repeat);
+    free(task_ptr->start_date);
+
+    free(task_ptr);
+    
+}

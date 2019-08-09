@@ -33,6 +33,7 @@ void start()
     task_add_tag(task_ptr, "d0d368ee-5f92-4c7a-9b2f-7bacabca0e30");
     task_add_tag(task_ptr, "3511f23f-2f9c-452d-8f4f-981e219f795a");
     habicurl_create_task_for_user(g_api_user_id, g_api_token, task_ptr);
+    task_free_object(task_ptr);
 }
 
 int main() 

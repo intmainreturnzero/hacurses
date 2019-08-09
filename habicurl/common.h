@@ -13,7 +13,13 @@ struct memory_struct
 
 size_t write_memory_callback(void *contents, size_t size, size_t nmemb, void *userp);
 
+struct memory_struct* get_memory_struct_chunk();
+
+void free_memory_struct_chunk(struct memory_struct *chunk);
+
 struct curl_slist* add_auth_headers(char* user_id, char* api_key);
+
+struct curl_slist* add_content_type_header(struct curl_slist *headers);
 
 void json_object_add_string_not_null(json_object *jobj, char *key, char *string_to_add);
 
