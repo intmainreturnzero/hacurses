@@ -4,6 +4,7 @@
 #include <habicurl.h>
 #include <habicurl_tags.h>
 #include <habicurl_cron.h>
+#include <habicurl_tasks.h>
 
 int g_ymax, g_xmax;
 char *g_api_token, *g_api_user_id;
@@ -27,7 +28,10 @@ void start()
     habicurl_init();
 
     // struct tags_list *tags = habicurl_get_tags(g_api_user_id, g_api_token);
-    int return_code = habicurl_run_cron(g_api_user_id, g_api_token);
+    // int return_code = habicurl_run_cron(g_api_user_id, g_api_token);
+    struct todo *todo_ptr = todo_create_todo("some text");
+    todo_add_tag(todo_ptr, "test_tag 1");
+    todo_add_tag(todo_ptr, "test_tag 2");
 }
 
 int main() 
