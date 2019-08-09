@@ -1,3 +1,7 @@
+#include <json-c/json.h>
+
+#define UUID_SIZE_WITH_NULL 38
+
 // Struct required for constucting CURL reponse in-memory
 // Refer https://curl.haxx.se/libcurl/c/getinmemory.html
 
@@ -15,3 +19,4 @@ void json_object_add_string_not_null(json_object *jobj, char *key, char *string_
 
 void json_object_add_array_from_null_term_list(json_object *jobj, char *key, char **list);
 
+char* get_new_string(char *string_to_copy, size_t size_max);

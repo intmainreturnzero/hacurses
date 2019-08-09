@@ -29,9 +29,10 @@ void start()
 
     // struct tags_list *tags = habicurl_get_tags(g_api_user_id, g_api_token);
     // int return_code = habicurl_run_cron(g_api_user_id, g_api_token);
-    struct todo *todo_ptr = todo_create_todo("some text");
-    todo_add_tag(todo_ptr, "test_tag 1");
-    todo_add_tag(todo_ptr, "test_tag 2");
+    struct task *task_ptr = task_create_task("some text", TASK_TYPE_TODO);
+    task_add_tag(task_ptr, "d0d368ee-5f92-4c7a-9b2f-7bacabca0e30");
+    task_add_tag(task_ptr, "3511f23f-2f9c-452d-8f4f-981e219f795a");
+    habicurl_create_task_for_user(g_api_user_id, g_api_token, task_ptr);
 }
 
 int main() 

@@ -1,54 +1,87 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "common.h"
 #include "habicurl_tasks.h"
 
-struct todo* todo_create_todo(char *text)
+int is_valid_task_type(char* type)
 {
-    struct todo *todo_obj = calloc(1, sizeof(struct todo));
-
-    todo_obj->text = text;
-    todo_obj->type = TASK_TYPE_TODO;
-    todo_obj->tags = NULL;
-
-    return todo_obj;
+    if (type == NULL)
+    {
+        return 0;
+    }
+    else if (strncmp(type, TASK_TYPE_HABIT, 5) == 0 ||
+            strncmp(type, TASK_TYPE_DAILY, 5) == 0 ||
+            strncmp(type, TASK_TYPE_TODO, 4) == 0 ||
+            strncmp(type, TASK_TYPE_REWARD, 6))
+    {
+        return 1;
+    }
+    return 0;
 }
 
-struct todo* todo_create_empty_todo()
+struct task* task_create_task(char *text, char *type)
 {
-    struct todo *todo_obj = calloc(1, sizeof(struct todo));
+    if (text != NULL && !is_valid_task_type(type))
+    {
+        return NULL;
+    }
 
-    todo_obj->tags = NULL;
+    struct task *task_obj = calloc(1, sizeof(struct task));
+   
+    task_obj->text = get_new_string(text, TASK_SIZE_TEXT);
+    task_obj->type = get_new_string(type, TASK_SIZE_TYPE);
+    task_obj->tags = NULL;
 
-    return todo_obj;
+    return task_obj;
 }
 
-void todo_add_tag(struct todo *todo_obj, char *tag_uuid)
+struct task* task_create_empty_task()
 {
-    if (todo_obj == NULL || tag_uuid == NULL)
+    struct task *task_obj = calloc(1, sizeof(struct task));
+
+    task_obj->tags = NULL;
+
+    return task_obj;
+}
+
+void task_add_tag(struct task *task_obj, char *tag_uuid)
+{
+    if (task_obj == NULL || tag_uuid == NULL)
     {
         return; 
     }
 
     int curr_size = 0;
     char **new_list;
-    if (todo_obj->tags == NULL)
+    if (task_obj->tags == NULL)
     {
-        new_list = malloc(2 * sizeof(char*));
+        new_list = calloc(2, sizeof(char*));
     }
     else
     {
-        while (todo_obj->tags[curr_size] != NULL)
+        while (task_obj->tags[curr_size] != NULL)
         {
             curr_size++;
         }
 
-        new_list = malloc((curr_size + 2) * sizeof(char*));
-        memcpy(new_list, todo_obj->tags, curr_size * sizeof(char*));
+        new_list = calloc((curr_size + 2), sizeof(char*));
+        memcpy(new_list, task_obj->tags, curr_size * sizeof(char*));
     }
-    new_list[curr_size] = tag_uuid;
+    new_list[curr_size] = get_new_string(tag_uuid, UUID_SIZE_WITH_NULL);
     new_list[curr_size + 1] = NULL;
 
-    free(todo_obj->tags);
-    todo_obj->tags = new_list;
+    free(task_obj->tags);
+    task_obj->tags = new_list;
+}
+
+void task_add_alias(struct task *task_obj, char *alias)
+{
+    if (task_obj == NULL || alias == NULL)
+    {
+        return;
+    }
+
+    task_obj->alias = get_new_string(alias, TASK_SIZE_ALIAS);
 }
