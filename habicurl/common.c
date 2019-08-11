@@ -54,6 +54,9 @@ struct curl_slist* add_auth_headers(char* user_id, char* api_key)
     headers = curl_slist_append(headers, user_id_header);
     headers = curl_slist_append(headers, api_key_header);
 
+    free(user_id_header);
+    free(api_key_header);
+
     return headers;
 }
 

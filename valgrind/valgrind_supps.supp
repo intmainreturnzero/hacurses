@@ -1,0 +1,221 @@
+{
+   <libcurl>
+   Memcheck:Cond
+   ...
+   obj:/usr/lib/libcurl.so.*
+}
+
+{
+   <libcurl_memmove>
+   Memcheck:Value8
+   fun:memmove
+   obj:/usr/lib/libcurl.so.4.5.0
+   ...
+}
+
+{
+   <libcurl_write_buf>
+   Memcheck:Param
+   write(buf)
+   fun:write
+   obj:/usr/lib/libcrypto.so.1.1
+   ...
+}
+
+{
+   <libcurl_nghttp2>
+   Memcheck:Value8
+   obj:/usr/lib/libnghttp2.so.14.17.1
+   ...
+}
+
+{
+   <libcurl_nghttp2_rcbuf>
+   Memcheck:Value8
+   fun:nghttp2_rcbuf_decref
+   ...
+}
+
+{
+   <libjson_json_tokener>
+   Memcheck:Cond
+   fun:json_tokener_parse_ex
+   ...
+}
+
+{
+   <libjson_json_tokener_1>
+   Memcheck:Value8
+   fun:json_tokener_parse_ex
+   ...
+}
+
+{
+   <libjson_index>
+   Memcheck:Cond
+   fun:index
+   ...
+}
+
+{
+   <libjson_json_parse_int64>
+   Memcheck:Cond
+   fun:json_parse_int64
+   ...
+}
+
+{
+   <libjson_strtod_1>
+   Memcheck:Cond
+   fun:____strtod_l_internal
+   ...
+}
+
+{
+   <libjson_strtod_2>
+   Memcheck:Value8
+   fun:____strtod_l_internal
+   ...
+}
+
+{
+   <libjson_strtol>
+   Memcheck:Cond
+   fun:____strtol_l_internal
+   ...
+}
+
+{
+   <libsos_strtol_2>
+   Memcheck:Value8
+   fun:____strtol_l_internal
+   ...
+}
+
+{
+   <libjson_round_and_return>
+   Memcheck:Cond
+   fun:round_and_return
+   ...
+}
+
+{
+   <libjson_lh_table>
+   Memcheck:Cond
+   fun:lh_table_insert_w_hash
+   ...
+}
+
+{
+   <libjson_lh_table_resize>
+   Memcheck:Cond
+   fun:lh_table_resize
+   ...
+}
+
+{
+   <libjson_lh_table_resize_2>
+   Memcheck:Value8
+   fun:lh_table_resize
+   ...
+}
+
+
+{
+   <libjson_lh_table_insert>
+   Memcheck:Value8
+   fun:lh_table_insert_w_hash
+   ...
+}
+
+{
+   <libjson_str_to_mpn>
+   Memcheck:Cond
+   fun:str_to_mpn.isra.0
+   fun:____strtod_l_internal
+   ...
+}
+
+{
+   <libjson_lh_char_equal>
+   Memcheck:Cond
+   fun:strcmp
+   fun:lh_char_equal
+   ...
+}
+
+{
+   <libjson_lh_table_lookup>
+   Memcheck:Cond
+   fun:lh_table_lookup_entry_w_hash
+   ...
+}
+
+{
+   <libjson_lh_table_lookup>
+   Memcheck:Value8
+   fun:lh_table_lookup_entry_w_hash
+   ...
+}
+
+{
+   <libjson_strncasecmp>
+   Memcheck:Cond
+   fun:strncasecmp
+   fun:json_tokener_parse_ex
+   ...
+}
+
+{
+   <libjson_strncmp>
+   Memcheck:Cond
+   fun:strncmp
+   fun:json_tokener_parse_ex
+   ...
+}
+
+{
+   <libjson_strlen>
+   Memcheck:Cond
+   fun:strlen
+   obj:/usr/lib/libjson-c.so.*
+   ...
+}
+
+{
+   <libjson_strlen_1>
+   Memcheck:Cond
+   fun:strlen
+   fun:strdup
+   fun:json_tokener_*
+   ...
+}
+
+{
+   <libjson_strlen_2>
+   Memcheck:Cond
+   fun:strlen
+   fun:strdup
+   fun:json_object_*
+   ...
+}
+
+{
+   <libjson_tolower>
+   Memcheck:Value8
+   fun:tolower
+   fun:strncasecmp
+   fun:json_tokener_parse_ex
+   ...
+}
+
+{
+   <libjson_tolower_1>
+   Memcheck:Cond
+   fun:tolower
+   fun:strncasecmp
+   fun:json_tokener_parse_ex
+   ...
+}
+
+
