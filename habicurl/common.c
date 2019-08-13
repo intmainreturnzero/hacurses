@@ -93,15 +93,15 @@ void json_object_add_array_from_null_term_list(json_object *jobj, char *key, cha
     }
 }
 
-char* get_new_string(char *string_to_copy, size_t size_max)
+char* get_new_string(char *string_to_copy, size_t size_max_including_term)
 {
     if (string_to_copy == NULL)
     { 
         return NULL;
     }
 
-    char *new_string = calloc(size_max, sizeof(char));   
-    snprintf(new_string, size_max, string_to_copy);
+    char *new_string = calloc(size_max_including_term, sizeof(char));   
+    snprintf(new_string, size_max_including_term, string_to_copy);
 
     return new_string;
 }
