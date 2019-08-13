@@ -105,3 +105,26 @@ char* get_new_string(char *string_to_copy, size_t size_max)
 
     return new_string;
 }
+
+char** get_null_term_string_array_from_array_list(array_list *list_ptr, size_t string_size_max)
+{
+    if (list_ptr == NULL)
+    {
+        return NULL;
+    }
+    
+    size_t length = list_ptr->length;
+    char **list = calloc(length + 1, sizeof(char*));
+
+    for (int i = 0; i < length; i++)
+    {
+        list[i] = calloc(string_size_max, sizeof(char));
+
+        json_object *array_elem = (struct json_object *)(array_list_get_idx(list_ptr, i));
+        list[i] = get_new_string(json_object_get_string(array_elem), string_size_max);
+    }
+
+    list[length] = NULL;
+
+    return list;
+}

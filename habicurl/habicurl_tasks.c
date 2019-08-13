@@ -68,3 +68,72 @@ void habicurl_create_task_for_user(char *user_id, char *api_key, struct task* ta
 
     return;
 }
+
+// GET /tasks/user
+struct task_list* habicurl_get_tasks_for_user(char *user_id, char *api_token, char *task_type)
+{
+    // Habitica API requires this API call to be passed with a plural value of task_type
+    char *plural_task_type = get_plural_task_type(task_type);
+
+    if (plural_task_type == NULL)
+    {
+        return NULL;
+    }
+
+    CURL *curl = curl_easy_init();
+    CURLcode res;
+
+    struct memory_struct *chunk = get_memory_struct_chunk();
+
+    json_bool success_value;
+    
+    if (curl)
+    {
+        curl_easy_setopt(curl, CURLOPT_URL, "https://habitica.com/api/v3/tasks/user");
+
+        // Set user headers
+        struct curl_slist *headers = add_auth_headers(user_id, api_token);
+        headers = add_content_type_header(headers);
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_memory_callback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)chunk);
+        
+        res = curl_easy_perform(curl);
+
+        if (res != CURLE_OK)
+        {
+            return;
+        }
+        else
+        {
+            json_object *jobj = json_tokener_parse(chunk->memory);
+            struct json_object *success_prop;
+
+            json_pointer_get(jobj, "/success", &success_prop);
+            success_value = json_object_get_boolean(success_prop);
+
+            if (success_value)
+            {
+                struct json_object *data_array;
+                json_pointer_get(jobj, "/data", &data_array);
+
+                struct array_list *tasks_list = json_object_get_array(data_array);
+                size_t length = tasks_list->length;
+                struct tasks_list *task_list = calloc(1, sizeof(struct tasks_list));
+                struct task *tasks = calloc(length, sizeof(struct task));
+                
+                for(int i = 0; i < length; i++)
+                {
+                    json_object *array_elem = (struct json_object *)(array_list_get_idx(tasks_list, i));
+
+
+                }
+                return task_list;
+
+            }
+        }
+
+    }
+
+}

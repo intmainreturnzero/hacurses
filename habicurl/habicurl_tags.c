@@ -54,6 +54,8 @@ struct tags_list* habicurl_get_tags(char* user_id, char* api_key)
             struct json_object *id_ptr, *name_ptr;
             json_pointer_get(array_elem, "/id", &id_ptr);
             json_pointer_get(array_elem, "/name", &name_ptr);
+            // TODO: The strings returned by json_object_get_string are managed by libjson
+            // Use get_new_string from common to get own string copy
             const char *tag_id = json_object_get_string(id_ptr);
             const char *tag_name = json_object_get_string(name_ptr);
             

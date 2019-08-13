@@ -1,3 +1,5 @@
+#include <json-c/json.h>
+
 #include "habicurl_user.h"
 
 // Common macros/structs related to tasks
@@ -92,6 +94,12 @@ struct task
     double value;
 };
 
+struct tasks_list
+{
+    struct task *tasks;
+    int length;
+};
+
 // Helper methods for tasks
 struct task* task_create_task(char *text, char *type);
 struct task* task_create_empty_task();
@@ -103,6 +111,11 @@ void task_set_notes(struct task *task_obj, char *notes);
 void task_set_priority(struct task *task_obj, float priority);
 void task_free_object(struct task *task_ptr);
 
+// Possibly internal helper methods, but related to tasks
+// TODO: Can be moved to a separate internal header file
+char* get_plural_task_type(char *task_type);
+struct task* get_task_from_json_object(json_object *jobj);
+
 // API calls
 void habicurl_create_task_for_user(char *user_id, char *api_key, struct task* task_to_create);
-
+struct task_list* habicurl_get_tasks_for_user(char *user_id, char *api_token, char *task_type);

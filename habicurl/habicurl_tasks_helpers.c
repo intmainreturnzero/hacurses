@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <json-c/json.h>
 
 #include "common.h"
 #include "habicurl_tasks.h"
@@ -19,6 +20,35 @@ int is_valid_task_type(char* type)
         return 1;
     }
     return 0;
+}
+
+char* get_plural_task_type(char *task_type)
+{
+    char *plural = calloc(10, sizeof(char));
+
+    if (strncmp(task_type, TASK_TYPE_HABIT, 10))
+    {
+        snprintf(plural, 10, "habits");
+        return plural;
+    }
+    else if (strncmp(task_type, TASK_TYPE_DAILY, 10))
+    {
+        snprintf(plural, 10, "todos");
+        return plural;
+    }
+    else if (strncmp(task_type, TASK_TYPE_TODO, 10))
+    {
+        snprintf(plural, 10, "todos");
+        return plural;
+    }
+    else if (strncmp(task_type, TASK_TYPE_REWARD, 10))
+    {
+        snprintf(plural, 10, "rewards");
+        return plural;
+    }
+
+    free(plural);
+    return NULL;
 }
 
 struct task* task_create_task(char *text, char *type)
@@ -129,4 +159,30 @@ void task_free_object(struct task *task_ptr)
 
     free(task_ptr);
     
+}
+
+struct task* get_task_from_json_object(json_object *jobj)
+{
+    if (jobj == NULL)
+    {
+        return NULL;
+    }
+    struct task *task_obj = calloc(1, sizeof(struct task));
+
+    struct json_object *text_ptr, *type_ptr, *tags_ptr, *alias_ptr;
+
+    // Get text
+    json_pointer_get(jobj, "/text", &text_ptr);
+    task_obj->text = get_new_string(json_object_get_string(text_ptr), TASK_SIZE_TEXT);
+
+    // Get type
+    json_pointer_get(jobj, "/type", &type_ptr);
+    task_obj->type = get_new_string(json_object_get_string(type_ptr), TASK_SIZE_TYPE);
+
+    // Get tags
+    json_pointer_get(jobj, "/tags", &tags_ptr);
+    struct array_list *tags_list = json_object_get_array(tags_ptr);
+    task_obj->tags = get_null_term_string_array_from_array_list(tags_list, TASK_SIZE_TAG);
+
+    return task_obj;
 }
