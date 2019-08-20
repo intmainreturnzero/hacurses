@@ -37,8 +37,11 @@ clean:
 	rm -r ./bin
 	rm -r ./testbin
 
-tests: testbin/common_get_new_string
+tests: testbin/common_get_new_string testbin/common_json_object_add_array
 
 testbin/common_get_new_string: habicurl/common.c habicurl/tests/common_get_new_string_tests.c
 	gcc -lcmocka -lcurl -ljson-c habicurl/common.c habicurl/tests/common_get_new_string_tests.c -o testbin/common_get_new_string
-	gcc -lcmocka -lcurl -Wl,--wrap=json_object_new_array,--wrap=json_object_object_add,--wrap=json_object_new_string,--wrap=json_object_array_add,--wrap=array_list_get_idx,--wrap=json_object_get_string habicurl/common.c habicurl/tests/common_get_new_string_tests.c -o testbin/common_get_new_string
+	gcc -g -lcmocka -lcurl -Wl,--wrap=json_object_new_array,--wrap=json_object_object_add,--wrap=json_object_new_string,--wrap=json_object_array_add,--wrap=array_list_get_idx,--wrap=json_object_get_string habicurl/common.c habicurl/tests/common_get_new_string_tests.c -o testbin/common_get_new_string
+
+testbin/common_json_object_add_array: habicurl/common.c habicurl/tests/common_json_object_add_array.c
+	gcc -g -lcmocka -lcurl -Wl,--wrap=json_object_new_array,--wrap=json_object_object_add,--wrap=json_object_new_string,--wrap=json_object_array_add,--wrap=array_list_get_idx,--wrap=json_object_get_string habicurl/common.c habicurl/tests/common_json_object_add_array.c -o testbin/common_json_object_add_array
