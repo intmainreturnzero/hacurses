@@ -87,6 +87,7 @@ void json_object_add_array_from_null_term_list(json_object *jobj, char *key, cha
             json_object_array_add(array_json, element_json);
 
             i++;
+            // json_object_put(element_json);
         }
 
         json_object_object_add(jobj, key, array_json);
@@ -106,21 +107,19 @@ char* get_new_string(const char *string_to_copy, size_t size_max_including_term)
     return new_string;
 }
 
-char** get_null_term_string_array_from_array_list(array_list *list_ptr, size_t string_size_max)
+char** get_null_term_string_array_from_array_list(json_object *array_json, size_t string_size_max)
 {
-    if (list_ptr == NULL)
+    if (array_json == NULL)
     {
         return NULL;
     }
     
-    size_t length = list_ptr->length;
+    size_t length = json_object_array_length(array_json);
     char **list = calloc(length + 1, sizeof(char*));
 
     for (int i = 0; i < length; i++)
     {
-        list[i] = calloc(string_size_max, sizeof(char));
-
-        json_object *array_elem = (struct json_object *)(array_list_get_idx(list_ptr, i));
+        json_object *array_elem = json_object_array_get_idx(array_json, i);
         list[i] = get_new_string(json_object_get_string(array_elem), string_size_max);
     }
 

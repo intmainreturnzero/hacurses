@@ -27,4 +27,4 @@ void json_object_add_array_from_null_term_list(json_object *jobj, char *key, cha
 
 char* get_new_string(const char *string_to_copy, size_t size_max_including_term);
 
-char** get_null_term_string_array_from_array_list(array_list *list_ptr, size_t string_size_max);
+char** get_null_term_string_array_from_array_list(json_object *array_json, size_t string_size_max);
