@@ -181,7 +181,6 @@ struct task* get_task_from_json_object(json_object *jobj)
 
     // Get tags
     json_pointer_get(jobj, "/tags", &tags_ptr);
-    // struct array_list *tags_list = json_object_get_array(tags_ptr);
     task_obj->tags = get_null_term_string_array_from_array_list(tags_ptr, TASK_SIZE_TAG);
 
     return task_obj;

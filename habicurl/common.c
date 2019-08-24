@@ -87,7 +87,6 @@ void json_object_add_array_from_null_term_list(json_object *jobj, char *key, cha
             json_object_array_add(array_json, element_json);
 
             i++;
-            // json_object_put(element_json);
         }
 
         json_object_object_add(jobj, key, array_json);
